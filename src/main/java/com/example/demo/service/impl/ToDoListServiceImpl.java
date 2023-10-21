@@ -119,6 +119,19 @@ public class ToDoListServiceImpl implements TodoListService {
         return repo.save(todo).getId();
     }
 
+    /**
+     * Delete To-do item
+     *
+     * @param id to-do ID
+     */
+    @Override
+    public void deleteToDo(String id) {
+        var entity = repo.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Not found item"));
+
+        repo.delete(entity);
+    }
+
     private TodoDto convertToTodoDto(Todo entity) {
         return TodoDto.builder()
                 .id(entity.getId())

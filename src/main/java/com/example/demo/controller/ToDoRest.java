@@ -56,6 +56,14 @@ public class ToDoRest {
         return new ResponseEntity<>(todoListService.saveToDo(convertToTodoDto(dto)), HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteToDoItem(@PathVariable String id) {
+        log.info("[ToDoRest] deleteToDoItem: " + id);
+
+        todoListService.deleteToDo(id);
+        return ResponseEntity.ok().build();
+    }
+
     private Todo convertToTodoDto(TodoRequestDto dto) {
         return Todo.builder()
                 .title(dto.getTitle())

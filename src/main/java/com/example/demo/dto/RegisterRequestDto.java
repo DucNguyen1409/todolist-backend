@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Role;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,7 @@ public class RegisterRequestDto {
 
     @NotEmpty(message = "password cannot be empty")
     private String password;
+
+    private Role role;
+
 }

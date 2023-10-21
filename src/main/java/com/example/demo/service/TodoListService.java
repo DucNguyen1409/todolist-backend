@@ -51,4 +51,11 @@ public interface TodoListService {
      */
     String saveToDo(final Todo todo);
 
+    /**
+     * Delete To-do item
+     *
+     * @param id to-do ID
+     */
+    void deleteToDo(final String id);
+
 }
