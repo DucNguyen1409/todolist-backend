@@ -22,6 +22,11 @@ public class ToDoListServiceImpl implements TodoListService {
 
     private final TodoRepository repo;
 
+    /**
+     * Find all
+     *
+     * @return TodoDto list
+     */
     @Override
     public List<TodoDto> findAll() {
         var results = repo.findAll();
@@ -34,6 +39,12 @@ public class ToDoListServiceImpl implements TodoListService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Find by user created
+     *
+     * @param createdBy created by
+     * @return TodoDto list
+     */
     @Override
     public List<TodoDto> findByUserCreated(String createdBy) {
         var results = repo.findByCreatedBy(createdBy);
@@ -54,11 +65,25 @@ public class ToDoListServiceImpl implements TodoListService {
         return convertToTodoDto(entity);
     }
 
+    /**
+     * exist check by title and user created
+     *
+     * @param title title
+     * @param createdBy createdby
+     * @return true if exist and vice versa
+     */
     @Override
     public boolean existByTitleAndUserCreated(String title, String createdBy) {
         return Objects.nonNull(repo.findByTitleAndCreatedBy(title, createdBy));
     }
 
+    /**
+     * Update status by id
+     *
+     * @param id To-do ID
+     * @param status Status
+     * @return TodoDto
+     */
     @Override
     public TodoDto updateStatus(String id, Status status) {
         var entity = repo.findById(id)
@@ -70,9 +95,14 @@ public class ToDoListServiceImpl implements TodoListService {
     }
 
 
+    /**
+     * Create To-do item
+     *
+     * @param todo To-do
+     * @return To-do ID
+     */
     @Override
     public String saveToDo(Todo todo) {
-        //TODO get current user
         todo.setCreatedBy(todo.getCreatedBy());
         todo.setCreatedDate(new Date());
 
