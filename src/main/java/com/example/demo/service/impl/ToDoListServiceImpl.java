@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.TodoDto;
 import com.example.demo.entity.Status;
 import com.example.demo.entity.Todo;
+import com.example.demo.entity.User;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.repository.TodoRepository;
 import com.example.demo.service.TodoListService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 public class ToDoListServiceImpl implements TodoListService {
 
     private final TodoRepository repo;
+
+    private final UserService userService;
 
     /**
      * Find all
@@ -69,7 +73,7 @@ public class ToDoListServiceImpl implements TodoListService {
      * exist check by title and user created
      *
      * @param title title
-     * @param createdBy createdby
+     * @param createdBy createdBy
      * @return true if exist and vice versa
      */
     @Override
@@ -103,6 +107,12 @@ public class ToDoListServiceImpl implements TodoListService {
      */
     @Override
     public String saveToDo(Todo todo) {
+        // user check
+        User userCreatedBy = userService.findById(todo.getCreatedBy());
+        if (Objects.isNull(userCreatedBy.getId())) {
+            throw new ApiRequestException("User not found: " + todo.getCreatedBy());
+        }
+
         todo.setCreatedBy(todo.getCreatedBy());
         todo.setCreatedDate(new Date());
 

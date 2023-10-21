@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.dto.TodoDto;
 import com.example.demo.dto.TodoRequestDto;
 import com.example.demo.entity.Status;
 import com.example.demo.entity.Todo;
+import com.example.demo.entity.User;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.service.TodoListService;
 import jakarta.validation.Valid;
