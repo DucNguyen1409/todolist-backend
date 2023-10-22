@@ -18,6 +18,7 @@ public class RegisterRequestDto {
     @NotEmpty(message = "Last name cannot be empty")
     private String lastName;
 
+    @NotEmpty(message = "Email cannot be empty")
     private String email;
 
     @NotEmpty(message = "password cannot be empty")
