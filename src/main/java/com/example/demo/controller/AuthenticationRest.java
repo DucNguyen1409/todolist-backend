@@ -35,7 +35,6 @@ public class AuthenticationRest {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
-
     @GetMapping("/user-info")
     public ResponseEntity<UserResponseDto> getLoggedInUser() {
         log.info("[AuthenticationRest] getLoggedInUser");

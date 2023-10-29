@@ -18,4 +18,10 @@ public class AuthenticationResponseDto {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
+    private String email;
+
+    private String userId;
+
+    private String lastName;
+
 }

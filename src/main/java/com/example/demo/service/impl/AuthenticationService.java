@@ -46,7 +46,8 @@ public class AuthenticationService {
         );
 
         // find user by email orElse throw Exception
-        User user = repo.findByEmail(request.getEmail()).orElseThrow();
+        User user = repo.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ApiRequestException("User not found"));
 
         // revoke user token before generate new one.
         revokeAllUserToken(user);
@@ -61,6 +62,9 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .userId(user.getId())
+                .email(user.getEmail())
+                .lastName(user.getLastName())
                 .build();
     }
 
@@ -91,6 +95,9 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .userId(savedUser.getId())
+                .email(savedUser.getEmail())
+                .lastName(savedUser.getLastName())
                 .build();
     }
 

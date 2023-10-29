@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/to-do")
+@RequestMapping(value = "/api/v1/todos")
 @RequiredArgsConstructor
 public class ToDoRest {
 
