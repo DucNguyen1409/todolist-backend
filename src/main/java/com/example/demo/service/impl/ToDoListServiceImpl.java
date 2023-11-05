@@ -132,6 +132,23 @@ public class ToDoListServiceImpl implements TodoListService {
         repo.delete(entity);
     }
 
+    /**
+     * Update To-do item
+     *
+     * @param todo To-do
+     * @return To-do
+     */
+    @Override
+    public TodoDto updateTodo(Todo todo) {
+        // user check
+        User userCreatedBy = userService.findById(todo.getCreatedBy());
+        if (Objects.isNull(userCreatedBy.getId())) {
+            throw new ApiRequestException("User not found: " + todo.getCreatedBy());
+        }
+
+        return convertToTodoDto(repo.save(todo));
+    }
+
     private TodoDto convertToTodoDto(Todo entity) {
         return TodoDto.builder()
                 .id(entity.getId())

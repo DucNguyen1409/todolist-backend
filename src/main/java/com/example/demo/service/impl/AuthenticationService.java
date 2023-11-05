@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.AuthenticationRequestDto;
 import com.example.demo.dto.AuthenticationResponseDto;
 import com.example.demo.dto.RegisterRequestDto;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.repository.UserRepository;
@@ -79,7 +80,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .passwd(passwordEncoder.encode(request.getPassword())) // get password encoder then save.
-                .role(request.getRole())
+                .role(Objects.isNull(request.getRole()) ? Role.USER : request.getRole())
                 .build();
 
         // save to db

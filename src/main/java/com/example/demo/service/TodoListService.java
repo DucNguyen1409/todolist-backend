@@ -23,6 +23,12 @@ public interface TodoListService {
      */
     List<TodoDto> findByUserCreated(final String createdBy);
 
+    /**
+     * Find by ID
+     *
+     * @param id to-do ID
+     * @return TodoDto
+     */
     TodoDto findById(final String id);
 
     /**
@@ -57,5 +63,13 @@ public interface TodoListService {
      * @param id to-do ID
      */
     void deleteToDo(final String id);
+
+    /**
+     * Update To-do item
+     *
+     * @param todo To-do
+     * @return To-do
+     */
+    TodoDto updateTodo(final Todo todo);
 
 }
