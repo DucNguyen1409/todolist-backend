@@ -37,18 +37,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors(Customizer.withDefaults());
         // filter Chain custom.
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST) // some matcher no need to auth => permit all
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and() // session management
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests((authorize) -> authorize
+                                                .requestMatchers(AUTH_WHITELIST).permitAll()
+                                                .anyRequest().authenticated())
+                 // some matcher no need to auth => permit all
                 .sessionManagement(sessionManagementConfig
-                        -> sessionManagementConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        -> sessionManagementConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // session management
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // execute this filter before user-passwd authentication
 

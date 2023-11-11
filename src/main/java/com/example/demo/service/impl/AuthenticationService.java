@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.AuthenticationRequestDto;
 import com.example.demo.dto.AuthenticationResponseDto;
 import com.example.demo.dto.RegisterRequestDto;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.repository.UserRepository;
@@ -46,7 +47,8 @@ public class AuthenticationService {
         );
 
         // find user by email orElse throw Exception
-        User user = repo.findByEmail(request.getEmail()).orElseThrow();
+        User user = repo.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ApiRequestException("User not found"));
 
         // revoke user token before generate new one.
         revokeAllUserToken(user);
@@ -61,6 +63,9 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .userId(user.getId())
+                .email(user.getEmail())
+                .lastName(user.getLastName())
                 .build();
     }
 
@@ -75,7 +80,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .passwd(passwordEncoder.encode(request.getPassword())) // get password encoder then save.
-                .role(request.getRole())
+                .role(Objects.isNull(request.getRole()) ? Role.USER : request.getRole())
                 .build();
 
         // save to db
@@ -91,6 +96,9 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .userId(savedUser.getId())
+                .email(savedUser.getEmail())
+                .lastName(savedUser.getLastName())
                 .build();
     }
 
