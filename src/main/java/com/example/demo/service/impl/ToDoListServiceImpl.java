@@ -8,14 +8,13 @@ import com.example.demo.exception.ApiRequestException;
 import com.example.demo.repository.TodoRepository;
 import com.example.demo.service.TodoListService;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.CsvParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +24,8 @@ public class ToDoListServiceImpl implements TodoListService {
     private final TodoRepository repo;
 
     private final UserService userService;
+
+    private final CsvParser csvParser;
 
     /**
      * Find all
@@ -147,6 +148,19 @@ public class ToDoListServiceImpl implements TodoListService {
         }
 
         return convertToTodoDto(repo.save(todo));
+    }
+
+    /**
+     * Upload To-do item
+     * @param file MultipartFile
+     * @return to-do size
+     */
+    @Override
+    public Integer uploadTodoItem(MultipartFile file) {
+        Set<Todo> todos = csvParser.parseCsv(file);
+        repo.saveAll(todos);
+
+        return todos.size();
     }
 
     private TodoDto convertToTodoDto(Todo entity) {

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.TodoDto;
 import com.example.demo.entity.Status;
 import com.example.demo.entity.Todo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -71,5 +72,12 @@ public interface TodoListService {
      * @return To-do
      */
     TodoDto updateTodo(final Todo todo);
+
+    /**
+     * Upload To-do item
+     * @param file MultipartFile
+     * @return to-do size
+     */
+    Integer uploadTodoItem(MultipartFile file);
 
 }
